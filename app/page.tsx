@@ -1,13 +1,19 @@
 "use client";
 import Image from "next/image";
 import { CopyBlock, dracula } from "react-code-blocks";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "flowbite-react";
 import SelectDropdown from "./components/Select";
 
+interface problemInterface {
+  problemName: string;
+  code: string;
+  type: string;
+}
+
 export default function Home() {
   const [language, changeLanguage] = useState("jsx");
-  const [data, setData] = useState([
+  const data = [
     {
       problemName: "Two Sum",
       code: `var twoSum = function(nums, target) {
@@ -188,11 +194,27 @@ export default function Home() {
       };
       
       console.log(sum(1)(2)(4)());
+
+      function specialAdd(a) {
+        if (a == undefined) return 0;
+      
+        return function addNext(b) {
+          if (b === undefined) return a;
+          a = a + b;
+          return addNext;
+        };
+      }
+      console.log(specialAdd(1)(2)(3)(4)(-10)(1)());
       `,
       type: "JS",
     },
-  ]);
+  ];
   const [type, setType] = useState("");
+  const [problemList, setProblemList] = useState<problemInterface[]>([]);
+
+  useEffect(() => {
+    setProblemList(data);
+  }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center">
@@ -207,13 +229,14 @@ export default function Home() {
         handleOnChange={(e: string) => {
           console.log(e);
           setType(e);
-          let dataArr = data.filter((item) => item.type === e);
-          setData(dataArr);
+          let dataArr = [...data];
+          let res = dataArr.filter((item) => item.type === e);
+          setProblemList(res);
         }}
       />
 
-      {data &&
-        data.map((item, idx) => (
+      {problemList &&
+        problemList.map((item, idx) => (
           <div key={idx} className="w-5/6 mt-4">
             <p>{item.problemName}</p>
             <CopyBlock
