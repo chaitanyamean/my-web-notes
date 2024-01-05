@@ -31,6 +31,35 @@ export default function Home() {
       type: "DSA",
     },
     {
+      problemName: "Missing Number",
+      code: `var missingNumber = function(nums) {
+    
+        const n = nums.length
+        const expectedSum = (n * (n+1))/ 2;
+        let actualSum = 0;
+        for(let i=0; i<n;i++){
+            actualSum = actualSum + nums[i]
+        }
+        return expectedSum - actualSum
+    };`,
+      type: "DSA",
+    },
+    {
+      problemName: "Best Time to Buy and Sell Stock",
+      code: `var maxProfit = function(prices) {
+        let min = prices[0];
+        let profit = 0;
+        for(let i=1; i<prices.length; i++) {
+    
+            let cost = prices[i] - min;
+            profit = Math.max(cost, profit)
+            min = Math.min(prices[i], min)
+        }
+        return profit
+    };`,
+      type: "DSA",
+    },
+    {
       problemName: `A memoize function is a higher-order function that takes in a function and returns a
       memoized version of it. The memoized function caches the results of expensive function
        calls and returns the cached result when it receives the same inputs again.`,
